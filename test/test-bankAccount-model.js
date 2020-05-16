@@ -23,16 +23,16 @@ describe('Pruebas para operaciones de cuentas de banco', () => {
         })
     })
 
-    describe('#Substract', () => {
+    describe('#Sub', () => {
         it('Debería restarle una cantidad al valor de la cuenta', () => {
             let testAccount = new BankAccount()
-            testAccount.substract(200)
+            testAccount.sub(200)
             assert.equal(-200, testAccount.current())
         })
 
         it('El valor de la cuenta no debería cambiar porque el valor es negativo', () => {
             let testAccount = new BankAccount()
-            testAccount.substract(-200)
+            testAccount.sub(-200)
             assert.equal(0, testAccount.current())
         })
     })
@@ -41,10 +41,9 @@ describe('Pruebas para operaciones de cuentas de banco', () => {
         let testAccountA = new BankAccount()
         let testAccountB = new BankAccount()
         let resultValue = 80
-        let resultHistory = [{type:'append', amount:'100'},{type:'substract',amount:'20'}]
 
         testAccountA.append(100)
-        testAccountB.substract(20)
+        testAccountB.sub(20)
 
         testAccountA.merge(testAccountB)
 
@@ -53,16 +52,16 @@ describe('Pruebas para operaciones de cuentas de banco', () => {
         })
 
         it('Debería juntar la historia de las dos cuentas', () => {
-            assert.deepEqual(resultHistory, testAccountA.history())
+            assert.deepEqual([{type:'append', amount:100},{type:'sub',amount:20}], testAccountA.history())
         })
     })
 
     describe('#merge', () => {
         let testAccountA = new BankAccount()
-        let resultHistory = [{type:'append', amount:'100'},{type:'substract',amount:'20'},{type:'append',amount:'200'}]
+        let resultHistory = [{type:'append', amount:100},{type:'sub',amount:20},{type:'append',amount:200}]
 
         testAccountA.append(100)
-        testAccountA.substract(20)
+        testAccountA.sub(20)
         testAccountA.append(200)
 
         it('Debería mostrar la historia de transacciones de una cuenta', () => {
